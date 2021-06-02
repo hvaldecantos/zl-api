@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_jwt_extended import JWTManager
 import os
 
 def create_app(test_config=None):
@@ -7,11 +8,16 @@ def create_app(test_config=None):
     app.config.from_object('config')
     app.config.from_pyfile('config.py', silent=True)
 
+    JWTManager(app)
+
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    from .database import db
+    db.init_app(app)
 
     # nested blueprint to configure the api
     from flask import Blueprint
@@ -20,6 +26,9 @@ def create_app(test_config=None):
     @api.get("/")
     def initial_endpoint():
         return {"message": "Initial api structure deployed."}
+
+    from . import auth
+    api.register_blueprint(auth.bp)
 
     app.register_blueprint(api)
 

@@ -4,3 +4,21 @@
 ###
 GET {{apiRoot}}/api/
 Content-Type: application/json
+
+###
+POST {{apiRoot}}/api/auth/signup
+Content-Type: application/json
+
+{
+    "email": "test01@app.com",
+    "password": "test01"
+}
+
+###
+POST {{apiRoot}}/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test01@app.com",
+    "password": "test01"
+}
