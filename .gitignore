@@ -1,0 +1,23 @@
+# environment libs
+venv/
+
+# environmnet conf
+.env
+.flaskenv
+
+# python
+*.pyc
+__pycache__/
+
+# flask
+instance/
+
+# test
+.pytest_cache/
+.coverage
+htmlcov/
+
+dist/
+build/
+*.egg-info/
+

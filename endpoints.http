@@ -1,0 +1,6 @@
+# definition
+@apiRoot = http://localhost:5000
+
+###
+GET {{apiRoot}}/api/
+Content-Type: application/json
