@@ -1,5 +1,5 @@
 from flask_mongoengine import MongoEngine
-import click, os
+import click
 from flask.cli import with_appcontext
 
 
