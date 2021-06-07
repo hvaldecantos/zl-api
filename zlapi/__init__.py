@@ -2,6 +2,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 import os
 
+
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True, static_folder=None)
@@ -36,5 +37,10 @@ def create_app(test_config=None):
     api.register_blueprint(auth.bp)
 
     app.register_blueprint(api)
+
+    # error handling
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return {'error': 'Resource not found.'}, 404
 
     return app
