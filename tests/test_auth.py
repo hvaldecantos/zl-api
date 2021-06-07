@@ -4,12 +4,14 @@ from tests.base_case import BaseCase
 from flask_bcrypt import check_password_hash
 
 class TestAuthSuite(BaseCase):
+    name = 'someone'
     password = "apassword"
     email = "someone@server.com"
 
     def test_encrypted_password(self):
         # Given
         payload = json.dumps({
+            "name": self.name,
             "email": self.email,
             "password": self.password
         })
@@ -24,6 +26,7 @@ class TestAuthSuite(BaseCase):
     def test_successful_signup(self):
         # Given
         payload = json.dumps({
+            "name": "paurakh",
             "email": "paurakh011@gmail.com",
             "password": "mycoolpassword"
         })
@@ -37,11 +40,10 @@ class TestAuthSuite(BaseCase):
 
     def test_successful_login(self):
         # Given
-        email = "someone@gmail.com"
-        password = "apassword"
         payload = json.dumps({
-            "email": email,
-            "password": password
+            "name": self.name,
+            "email": self.email,
+            "password": self.password
         })
         response = self.app.post('/api/auth/signup', headers={"Content-Type": "application/json"}, data=payload)
 
