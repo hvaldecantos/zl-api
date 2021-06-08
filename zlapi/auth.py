@@ -3,6 +3,15 @@ from flask_jwt_extended import create_access_token
 from mongoengine.errors import DoesNotExist, NotUniqueError, ValidationError
 from .database.models import User
 import datetime
+from werkzeug.exceptions import HTTPException
+
+class ZlapiBaseException(HTTPException):
+    pass
+
+class InvalidCredentials(ZlapiBaseException):
+    code = 401
+    description = 'Invalid credentials.'
+
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -27,11 +36,11 @@ def login():
         user = User.objects.get(email=body.get('email'))
         authorized = user.check_password(body.get('password'))
         if not user or not authorized:
-            return {'error': 'Invalid email or password'}, 401
+            raise InvalidCredentials()
 
         expires = datetime.timedelta(days=7)
         access_token = create_access_token(identity=str(user.id), expires_delta=expires)
         return {'token': access_token}, 200
     except DoesNotExist as e:
-        return {'error': 'Invalid email or password'}, 401
+        raise InvalidCredentials()
 

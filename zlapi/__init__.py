@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 import os
+from .auth import ZlapiBaseException
 
 
 def create_app(test_config=None):
@@ -42,5 +43,9 @@ def create_app(test_config=None):
     @app.errorhandler(404)
     def page_not_found(e):
         return {'error': 'Resource not found.'}, 404
+
+    @app.errorhandler(ZlapiBaseException)
+    def intercept_zlapi_base_exceptions(e):
+        return {'error': e.description}, e.code
 
     return app
