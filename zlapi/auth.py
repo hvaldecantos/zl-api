@@ -2,15 +2,8 @@ from flask import Blueprint, request
 from flask_jwt_extended import create_access_token
 from mongoengine.errors import DoesNotExist, NotUniqueError, ValidationError
 from .database.models import User
+from .exceptions import InvalidCredentials
 import datetime
-from werkzeug.exceptions import HTTPException
-
-class ZlapiBaseException(HTTPException):
-    pass
-
-class InvalidCredentials(ZlapiBaseException):
-    code = 401
-    description = 'Invalid credentials.'
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')

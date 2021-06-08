@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 import os
-from .auth import ZlapiBaseException
+from zlapi.exceptions import ZlapiBaseException
 
 
 def create_app(test_config=None):
