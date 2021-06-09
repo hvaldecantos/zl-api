@@ -1,0 +1,40 @@
+name: CI/CD develop
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.8]
+        mongodb-version: [4.4]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Python versions
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+
+      - name: Set MongoDB server versions
+        uses: supercharge/mongodb-github-action@1.4.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        uses: actions/checkout@master
+        run: |
+          python -m unittest discover tests/
