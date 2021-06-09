@@ -6,7 +6,7 @@
 - `instance/config.py`: specific settings override general settings and are ignored from the version control system.
 - `.flaskenv`: flask specific configurations not versioned.
 - `requirements.txt`: app dependencies.
-- `.python-version`: especific version of python used for development.
+- `.python-version`: specific version of python used for development.
 
 ## Install the app to production
 
@@ -25,7 +25,7 @@ Copy this `dist/*.whl` file to the destination machine and install the applicati
     $ pip install wheel
     $ pip install zlapi-0.1.2-py3-none-any.whl
 
-Add especific setting for the production server. If using `venv`, you need to add the `config.py` in `venv/var/zlapi-instance/`. This file sets the following:
+Add specific setting for the production server. If using `venv`, you need to add the `config.py` in `venv/var/zlapi-instance/`. This file sets the following:
 
     SECRET_KEY='serious-key'
     DEBUG = False
