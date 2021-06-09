@@ -66,5 +66,5 @@ jobs:
         username: ${{ secrets.USERNAME_DEV }}
         port: ${{ secrets.PORT_DEV }}
         key: ${{ secrets.KEY_DEV }}
-        source: "dist/zlapi-*.whl"
+        source: "config.py,.python-version,requirements.txt,dist/zlapi-*.whl"
         target: ${{ secrets.TARGET_DEV }}
