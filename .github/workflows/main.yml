@@ -58,7 +58,6 @@ jobs:
     - name: Make distributable file
       run: |
         python setup.py bdist_wheel
-        ls -l dist
     - name: Copy distributable file via scp
       uses: appleboy/scp-action@master
       with:
@@ -68,3 +67,18 @@ jobs:
         key: ${{ secrets.KEY_DEV }}
         source: "config.py,.python-version,requirements.txt,dist/zlapi-*.whl"
         target: ${{ secrets.TARGET_DEV }}
+    - name: Update the running server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.USERNAME_DEV }}
+        key: ${{ secrets.KEY_DEV }}
+        port: ${{ secrets.PORT_DEV }}
+        script: |
+          cd zlapi
+          source venv/bin/activate
+          pip install -r requirements.txt
+          cd dist/
+          ls -tr | head -n -1 | xargs --no-run-if-empty rm
+          pip install zlapi-*.whl
+          echo "execute the server"
